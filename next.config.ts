@@ -1,7 +1,9 @@
-import type { NextConfig } from "next";
+import { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    // appDir: true, // App Routerを有効化
+  },
 };
 
 export default nextConfig;

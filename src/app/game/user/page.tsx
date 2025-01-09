@@ -1,40 +1,35 @@
 "use client";
 import { useAtom } from 'jotai';
 import { gameIdAtom, userIdAtom, gamePageModeAtom, topPageModeAtom, } from '@/atoms/state';
-import Select from '@/components/Select';
-import Create from '@/components/Create';
-import Enter from '@/components/Enter';
+
+import Prepare from '@/components/Prepare';
+import Generate from '@/components/Generate';
+import Vote from '@/components/Vote';
+import Result from '@/components/Result';
+import Link from 'next/link';
 
 export default function Home() {
-  const [gameId, setGameId] = useAtom(gameIdAtom);
-  const [userId, setUserId] = useAtom(userIdAtom); 
-  const [topPageMode, setTopPageMode] = useAtom(topPageModeAtom);
+  const [gameId] = useAtom(gameIdAtom);
+  const [userId] = useAtom(userIdAtom); 
+  const [topPageMode] = useAtom(topPageModeAtom);
   const [gamePageMode, setGamePageMode] = useAtom(gamePageModeAtom);
 
   const renderComponent = () => {
-    console.log(topPageMode.mode);
-    switch (topPageMode.mode) {
-      case 'select':
-        return <Select />;
-      case 'create':
-        return <Create />;
-      case 'enter':
-        return <Enter />;
-      default:
-        return (
-          <div className="border bord p-24 m-8 bg-slate-200">
-            <h1 className="font-semibold text-4xl">Welcome</h1>
-          </div>
-        );
+    console.log(gamePageMode.mode);
+    switch (gamePageMode.mode) {
+      case 'prepare':
+        return <Prepare />;
+      case 'generate':
+        return <Generate />;
+      case 'vote':
+        return <Vote />;
+      case 'result':
+        return <Result />;
+     
     }
   };
 
-  const resetState = () => {
-    setGameId("");
-    setUserId("");
-    setTopPageMode({ mode: 'top' });
-    setGamePageMode({ mode: 'prepare' });
-  };
+ 
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
@@ -44,29 +39,32 @@ export default function Home() {
       <div className="flex space-x-4">
         <button
           className="px-4 py-2 bg-blue-500 text-white rounded"
-          onClick={() => setTopPageMode({ mode: 'select' })}
+          onClick={() => setGamePageMode({ mode: 'prepare' })}
         >
-          Select
+          Prepare
         </button>
         <button
           className="px-4 py-2 bg-yellow-500 text-white rounded"
-          onClick={() => setTopPageMode({ mode: 'create' })}
+          onClick={() => setGamePageMode({ mode: 'generate' })}
         >
-          Create
+          Generate
         </button>
         <button
           className="px-4 py-2 bg-red-500 text-white rounded"
-          onClick={() => setTopPageMode({ mode: 'enter' })}
+          onClick={() => setGamePageMode({ mode: 'vote' })}
         >
-          Enter
+          Vote
+        </button>
+        <button
+          className="px-4 py-2 bg-green-500 text-white rounded"
+          onClick={() => setGamePageMode({ mode: 'result' })}
+        >
+          Result
         </button>
       </div>
-      <button
-        className="px-4 py-2 bg-slate-400 text-white rounded mt-8"
-        onClick={() => resetState()}
-      >
-        Reset
-      </button>
+     
+
+
       <div className="px-16 py-16 my-4 bg-slate-200">
       <h1 className="font-semibold mb-4">Global State</h1>
       <ul>
@@ -77,7 +75,12 @@ export default function Home() {
         
       </ul>
       </div>
-      
+      <Link
+  href="/"
+  className="inline-block px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition duration-300 ease-in-out shadow-md"
+>
+  戻る
+</Link>
     </div>
 
 
